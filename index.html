@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steal a Brainrot's Best Vendor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        header p {
+            margin: 5px 0 0;
+            font-size: 1rem;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            padding: 15px 0;
+        }
+        .item {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .item h2 {
+            color: #333;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        .status {
+            font-weight: bold;
+            color: #28a745;
+        }
+        button {
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        .review {
+            background: #fff8dc;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #ffd700;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+        .popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            display: none;
+            border-radius: 5px;
+            animation: fadein 0.5s;
+            max-width: 250px;
+            font-size: 0.9rem;
+        }
+        @keyframes fadein {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .review-form {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: none;
+            font-size: 1rem;
+        }
+        .submit-btn {
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Steal a Brainrot's Best Vendor</h1>
+    <p>Your #1 source for in-game Brainrot items</p>
+</header>
+
+<div class="container">
+    <div class="item">
+        <h2>Gram Gram Mudangs</h2>
+        <p>Status: <span class="status">In Stock</span></p>
+        <button onclick="buyItem('Gram Gram Mudangs')">Buy Now</button>
+    </div>
+
+    <div class="item">
+        <h2>Las Combinations</h2>
+        <p>Status: <span class="status">In Stock</span></p>
+        <button onclick="buyItem('Las Combinations')">Buy Now</button>
+    </div>
+
+    <h2>Customer Reviews</h2>
+    <div id="reviews"></div>
+
+    <div class="review-form">
+        <h3>Leave a Review</h3>
+        <textarea id="reviewInput" placeholder="Write your review here..."></textarea>
+        <button class="submit-btn" onclick="addReview()">Submit Review</button>
+    </div>
+</div>
+
+<div class="popup" id="popup"></div>
+
+<script>
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [
+        '⭐⭐⭐⭐⭐ "Trustworthy vendor, got my items instantly!" – Anonymous',
+        '⭐⭐⭐⭐ "Fast delivery, very happy!" – Anonymous',
+        '⭐⭐⭐⭐⭐ "I was skeptical, but this vendor is legit!" – Anonymous',
+        '⭐⭐⭐⭐⭐ "Five stars, will buy again." – Anonymous'
+    ];
+
+    function displayReviews() {
+        const reviewsContainer = document.getElementById("reviews");
+        reviewsContainer.innerHTML = "";
+        reviews.forEach(r => {
+            let reviewDiv = document.createElement("div");
+            reviewDiv.classList.add("review");
+            reviewDiv.textContent = r;
+            reviewsContainer.appendChild(reviewDiv);
+        });
+    }
+
+    function showPopup() {
+        const popup = document.getElementById('popup');
+        popup.innerHTML = reviews[Math.floor(Math.random() * reviews.length)];
+        popup.style.display = 'block';
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 4000);
+    }
+
+    function buyItem(itemName) {
+        window.location.href = 'payment.html';
+    }
+
+    function addReview() {
+        let input = document.getElementById("reviewInput");
+        let text = input.value.trim();
+        if(text !== "") {
+            let newReview = `⭐⭐⭐⭐⭐ "${text}" – Anonymous`;
+            reviews.push(newReview);
+            localStorage.setItem("reviews", JSON.stringify(reviews));
+            displayReviews();
+            input.value = "";
+            alert("Thank you for your review!");
+        }
+    }
+
+    displayReviews();
+    setInterval(showPopup, 7000);
+</script>
+
+</body>
+</html>
